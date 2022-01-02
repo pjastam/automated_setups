@@ -1,0 +1,75 @@
+#cloud-config
+# Creates a new user named "piet" with password-less sudo capabilities
+# SSH is available on port 4444
+#
+# Log is saved as /var/log/cloud-init-output.log
+#
+# Check these things manually first:
+#  - Make sure the R apt source matches the system
+#    (see https://cran.r-project.org/bin/linux/ubuntu/README for names)
+#  - If running on smaller droplet uncomment the section that enlarges swapfile
+#
+# Help from:
+#  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
+#  - https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
+#  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
+#  - https://github.com/rocker-org/hadleyverse/blob/master/Dockerfile
+
+apt_sources:
+  - source: deb https://cran.rstudio.com/bin/linux/ubuntu wily/
+    keyid: E084DAB9
+package_upgrade: true
+packages:
+  - fail2ban
+  - curl
+  # Packages for Python
+  - python3-pip
+  # Packages for R
+  - r-base-dev
+  - libcurl4-gnutls-dev
+  - libxml2-dev
+  - libssl-dev
+users:
+  - name: piet
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash
+write_files:
+  - path: /etc/fail2ban/jail.local
+    content: |
+        [DEFAULT]
+        # Ban hosts for one hour:
+        bantime = 3600
+        #
+        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+        banaction = iptables-multiport
+        #
+        [sshd]
+        enabled = true
+        port    = 4444
+        logpath = %(sshd_log)s
+runcmd:
+  # Configure SSH and fail2ban
+  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
+  - sed -i -e '$anospoof on' /etc/host.conf
+  - service ssh restart
+  - service fail2ban restart
+  # Get rid of message about how to run sudo
+  - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
+  ## ### Python stuff ###
+  #- pip3 install beautifulsoup4 tinydb requests
+  #- pip3 install numpy
+  #- pip3 install pandas
+  # ### R stuff ###
+  ## Bigger swap file for R on smaller machines
+  #- /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+  #- /sbin/mkswap /var/swap.1
+  #- /sbin/swapon /var/swap.1
+  #- sh -c 'echo "/var/swap.1 swap swap defaults 0 0 " >> /etc/fstab'
+  ## Devtools
+  #- R -e 'install.packages(c("devtools"), repos="https://cran.rstudio.com/")'
+  ## Hadleyverse and close friends
+  #- R -e 'install.packages(c("broom", "DiagrammeR", "devtools", "dplyr", "ggplot2", "ggthemes", "haven", "httr", "knitr", "lubridate", "packrat", "pryr", "purrr", "reshape2", "rmarkdown", "rvest", "readr", "readxl", "testthat", "tidyr", "shiny", "stringr", "xml2"), repos="https://cran.rstudio.com/", dependencies=TRUE)'
+  
