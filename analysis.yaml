@@ -80,4 +80,4 @@ runcmd:
   ## Hadleyverse and close friends
   #- R -e 'install.packages(c("broom", "DiagrammeR", "devtools", "dplyr", "ggplot2", "ggthemes", "haven", "httr", "knitr", "lubridate", "packrat", "pryr", "purrr", "reshape2", "rmarkdown", "rvest", "readr", "readxl", "testthat", "tidyr", "shiny", "stringr", "xml2"), repos="https://cran.rstudio.com/", dependencies=TRUE)'
   ## Reboot system after finished
-  shutdown --reboot now
+  - shutdown --reboot now
