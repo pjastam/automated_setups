@@ -1,4 +1,6 @@
 #cloud-config
+# Source: https://github.com/andrewheiss/cloud-config-files
+#
 # Creates a new user named "piet" with password-less sudo capabilities
 # SSH is available on port 4444
 #
@@ -13,11 +15,13 @@
 #  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
 #  - https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
 #  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
+#  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981
+#  - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
 #  - https://github.com/rocker-org/hadleyverse/blob/master/Dockerfile
 
 apt_sources:
   - source: deb https://cran.rstudio.com/bin/linux/ubuntu wily/
-    keyid: E084DAB9
+    keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
 package_upgrade: true
 packages:
   - fail2ban
