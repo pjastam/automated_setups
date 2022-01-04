@@ -60,6 +60,9 @@ runcmd:
   - sed -i -e '$anospoof on' /etc/host.conf
   - service ssh restart
   - service fail2ban restart
+  # Set up a basic firewall, but allow SSH connections
+  - ufw allow OpenSSH
+  - ufw enable
   # Get rid of message about how to run sudo
   - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
   ## ### Python stuff ###
