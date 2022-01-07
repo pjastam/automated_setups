@@ -10,6 +10,7 @@
 #  - Make sure the R apt source matches the system
 #    (see https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html for names)
 #  - If running on smaller droplet uncomment the section that enlarges swapfile
+#  - Optional: add SSH key for user account
 #
 # Help from:
 #  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
