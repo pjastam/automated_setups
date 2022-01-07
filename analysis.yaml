@@ -35,6 +35,8 @@ packages:
   - libssl-dev
 users:
   - name: piet
+#    ssh-authorized-keys:
+#      - ssh-rsa ... Main computer
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: sudo
     shell: /bin/bash
