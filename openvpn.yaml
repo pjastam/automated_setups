@@ -43,7 +43,6 @@ runcmd:
   - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
   - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '$aAllowUsers vpn' /etc/ssh/sshd_config
-  - sed -i -e '$anospoof on' /etc/host.conf
   - service ssh restart
   - service fail2ban restart
   # Install OpenVPN
