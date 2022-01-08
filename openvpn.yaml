@@ -19,7 +19,6 @@ packages:
   - curl
 users:
   - name: vpn
-    ssh-authorized-keys:
 #    ssh-authorized-keys:
 #      - ssh-rsa ... Main computer
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
