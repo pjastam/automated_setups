@@ -1,0 +1,52 @@
+#cloud-config
+# Source: https://github.com/andrewheiss/cloud-config-files/ovpn.yaml
+#
+# Creates a new user named "vpn" with password-less sudo capabilities
+# SSH is available on port 4444
+#
+# Log is saved as /var/log/cloud-init-output.log
+#
+# Check these things manually first:
+#  - Optional: add SSH key for user account
+#
+# OpenVPN is configured automatically and the client certificate is available at /home/vpn/client.ovpn
+# Transfer using scp like so:
+#     scp -P 4444 vpn@IPADDRESS:/home/vpn/client.ovpn client.ovpn
+
+package_upgrade: true
+packages:
+  - fail2ban
+  - curl
+users:
+  - name: vpn
+    ssh-authorized-keys:
+#    ssh-authorized-keys:
+#      - ssh-rsa ... Main computer
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo
+    shell: /bin/bash
+write_files:
+  - path: /etc/fail2ban/jail.local
+    content: |
+        [DEFAULT]
+        # Ban hosts for one hour:
+        bantime = 3600
+        #
+        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+        banaction = iptables-multiport
+        #
+        [sshd]
+        enabled = true
+        port    = 4444
+        logpath = %(sshd_log)s
+runcmd:
+  # Configure SSH and fail2ban
+  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers vpn' /etc/ssh/sshd_config
+  - sed -i -e '$anospoof on' /etc/host.conf
+  - service ssh restart
+  - service fail2ban restart
+  # Install OpenVPN
+  - wget git.io/vgZyn --no-check-certificate -O openvpn-install.sh && bash openvpn-install.sh
+  - cp /root/client.ovpn /home/vpn/client.ovpn
