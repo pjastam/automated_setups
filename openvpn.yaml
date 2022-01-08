@@ -50,3 +50,5 @@ runcmd:
   # Install OpenVPN
   - wget git.io/vgZyn --no-check-certificate -O openvpn-install.sh && bash openvpn-install.sh
   - cp /root/client.ovpn /home/vpn/client.ovpn
+  # Reboot system after finished
+  - shutdown --reboot now
