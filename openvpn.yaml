@@ -1,7 +1,7 @@
 #cloud-config
 # Source:
 #  - https://github.com/andrewheiss/cloud-config-files/ovpn.yaml
-#  - https://github.com//Nyr/openvpn-install
+#  - https://github.com/Nyr/openvpn-install
 #
 # Creates a new user named "vpn" with password-less sudo capabilities
 # SSH is available on port 4444
@@ -12,8 +12,13 @@
 #  - Optional: add SSH key for user account
 #
 # OpenVPN is configured automatically and the client certificate is available at /home/vpn/client.ovpn
-# Transfer using scp like so:
-#     scp -P 4444 vpn@IPADDRESS:/home/vpn/client.ovpn client.ovpn
+# at your newly installed OpenVPN server. Then follow these steps:
+# 1. Transfer this ovpn file to your client (Windows: C:\Users\<USERNAME>\OpenVPN\config) using scp like so:
+#        scp -P 4444 vpn@IPADDRESS:/home/vpn/client.ovpn client.ovpn
+# 2. Install the OpenVPN client.
+# 3. Run the OpenVPN client (see the system tray in Windows).
+# 4. Click yes if asked to add yourself to the "OpenVPN Administrators" group (administrator password required) 
+#
 
 package_upgrade: true
 packages:
