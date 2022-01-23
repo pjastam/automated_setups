@@ -19,6 +19,7 @@
 #  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981
 #  - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
 #  - https://github.com/rocker-org/hadleyverse/blob/master/Dockerfile
+#  - https://stackoverflow.com/questions/24418815/how-do-i-install-docker-using-cloud-init
 
 apt_sources:
   - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
