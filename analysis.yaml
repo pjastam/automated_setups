@@ -23,6 +23,9 @@
 apt_sources:
   - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
     keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
+  - source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+    keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+
 package_upgrade: true
 packages:
   - fail2ban
@@ -34,12 +37,15 @@ packages:
   - libcurl4-gnutls-dev
   - libxml2-dev
   - libssl-dev
+  # Packages for Docker
+  - docker-ce
+  - docker-ce-cli
 users:
   - name: piet
 #    ssh-authorized-keys:
 #      - ssh-rsa ... Main computer
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo
+    groups: sudo, docker
     shell: /bin/bash
 write_files:
   - path: /etc/fail2ban/jail.local
