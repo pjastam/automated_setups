@@ -22,7 +22,7 @@
 #  - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
 
 # Add apt mirror to get the latest version of R necessary for Shiny
-apt_sources:
+apt:
   - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
     keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
 
