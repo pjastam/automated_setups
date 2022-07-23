@@ -1,6 +1,8 @@
 #cloud-config
 #
 # Set up a Shiny server on Ubuntu 20.04 - without SSL certificate
+# - see https://cloud.r-project.org/bin/linux/ubuntu/ for the choice of the Ubuntu version
+# - also check the shiny server version number at https://www.rstudio.com/products/shiny/download-server/ubuntu/
 #
 # Creates a new user named "piet" with password-less sudo capabilities
 # SSH is available on port 4444
