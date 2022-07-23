@@ -23,8 +23,10 @@
 
 # Add apt mirror to get the latest version of R necessary for Shiny
 apt:
-  - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
-    keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
+  sources:
+    source1:
+      source: "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
+      keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
 
 package_upgrade: true
 packages:
@@ -43,10 +45,11 @@ packages:
   - git-core
 users:
   - name: piet
-#    ssh-authorized-keys:
-    - ssh-rsa ... Main computer
+    # Add SSH key
+    #ssh-authorized-keys:
+    #- ssh-rsa ... Main computer
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
-    groups: sudo, docker
+    groups: sudo
     shell: /bin/bash
 write_files:
   - path: /etc/fail2ban/jail.local
@@ -96,7 +99,7 @@ runcmd:
   - service fail2ban restart
   # Set up a basic firewall, but allow SSH connections
   - ufw allow OpenSSH
-  - ufw allow 'Nginx Http'
+  - ufw allow 'Nginx HTTP'
     #Replace this by the following line if port 443 should also be opened
     #- ufw allow 'Nginx Full'
   - ufw --force enable
@@ -116,5 +119,3 @@ runcmd:
   # Clean package files
   - rm *.deb
   - service nginx restart
-  # Reboot system after finished
-  - shutdown --reboot now
