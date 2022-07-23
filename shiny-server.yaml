@@ -35,6 +35,7 @@ packages:
   - libcurl4-gnutls-dev
   - libxml2-dev
   - libssl-dev
+  - libicu66
   # Packages for Shiny server
   - nginx
   - libapparmor1
