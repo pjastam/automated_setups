@@ -1,0 +1,119 @@
+#cloud-config
+#
+# Set up a Shiny server on Ubuntu 20.04 - without SSL certificate
+#
+# Creates a new user named "piet" with password-less sudo capabilities
+# SSH is available on port 4444
+#
+# Log is saved as /var/log/cloud-init-output.log
+#
+# Check these things manually first:
+#  - Make sure the R apt source matches the system
+#    (see https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html for names)
+#  - If running on smaller droplet uncomment the section that enlarges swapfile
+#  - Optional: add SSH public key for user account
+#
+# Help from:
+#  - https://github.com/andrewheiss/cloud-config-files
+#  - https://www.digitalocean.com/community/tutorials/how-to-set-up-shiny-server-on-ubuntu-20-04
+#  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
+#  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
+#  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981
+#  - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
+
+# Add apt mirror to get the latest version of R necessary for Shiny
+apt_sources:
+  - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
+    keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+package_upgrade: true
+packages:
+  - fail2ban
+  - curl
+  # Packages for R
+  - r-base-dev
+  - libcurl4-gnutls-dev
+  - libxml2-dev
+  - libssl-dev
+  # Packages for Shiny server
+  - nginx
+  - libapparmor1
+  - gdebi-core
+  - git-core
+users:
+  - name: piet
+#    ssh-authorized-keys:
+    - ssh-rsa ... Main computer
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    groups: sudo, docker
+    shell: /bin/bash
+write_files:
+  - path: /etc/fail2ban/jail.local
+    content: |
+        [DEFAULT]
+        # Ban hosts for one hour:
+        bantime = 3600
+        #
+        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+        banaction = iptables-multiport
+        #
+        [sshd]
+        enabled = true
+        port    = 4444
+        logpath = %(sshd_log)s
+  # Forward ports for Shiny
+  - path: /etc/nginx/sites-enabled/default
+    content: |
+      server {
+        listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        # Make site accessible from http://localhost/
+        server_name localhost;
+        location / {
+          # First attempt to serve request as file, then
+          # as directory, then fall back to displaying a 404.
+          try_files $uri $uri/ =404;
+          # Uncomment to enable naxsi on this location
+          # include /etc/nginx/naxsi.rules
+          proxy_pass http://127.0.0.1:3838;
+          # Uncomment if SSL is installed
+          #proxy_redirect http://127.0.0.1:3838/ https://$host/;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_read_timeout 20d;
+        }
+      }
+runcmd:
+  # Configure SSH and fail2ban
+  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
+  - service ssh restart
+  - service fail2ban restart
+  # Set up a basic firewall, but allow SSH connections
+  - ufw allow OpenSSH
+  - ufw allow 'Nginx Http'
+    #Replace this by the following line if port 443 should also be opened
+    #- ufw allow 'Nginx Full'
+  - ufw --force enable
+  # Get rid of message about how to run sudo
+  - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
+  # ### R stuff ###
+  # Bigger swap file for R on smaller machines
+  - /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+  - /sbin/mkswap /var/swap.1
+  - /sbin/swapon /var/swap.1
+  - sh -c 'echo "/var/swap.1 swap swap defaults 0 0 " >> /etc/fstab'
+  # Install "shiny" package for R
+  - R -e 'install.packages(c("shiny", "rmarkdown"), repos="https://cran.rstudio.com/")'
+  # Download and install Shiny
+  - wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.18.987-amd64.deb
+  - gdebi -n shiny-server-1.5.18.987-amd64.deb
+  # Clean package files
+  - rm *.deb
+  - service nginx restart
+  # Reboot system after finished
+  - shutdown --reboot now
