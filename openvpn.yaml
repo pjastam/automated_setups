@@ -19,6 +19,11 @@
 # 3. Run the OpenVPN client (see the system tray in Windows).
 # 4. Click yes if asked to add yourself to the "OpenVPN Administrators" group (administrator password required) 
 #
+# Help on cloud-init syntax from:
+#  - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+#  - https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
+#    (ERROR: THE ssh-authorized-keys (AND sudo) SYNTAX IS WRONG **IN ALL DIGITAL OCEAN EXAMPLES**, SEE NEXT REFERENCE)
+#  - https://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the
 
 package_upgrade: true
 packages:
@@ -26,9 +31,9 @@ packages:
   - curl
 users:
   - name: vpn
-#    ssh-authorized-keys:
+#    ssh_authorized_keys:
 #      - ssh-rsa ... Main computer
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo
     shell: /bin/bash
 write_files:
