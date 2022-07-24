@@ -13,6 +13,10 @@
 #  - Optional: add SSH public key for user account
 #
 # Help from:
+#  - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+#  - https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
+#    (ERROR: THE ssh-authorized-keys (AND sudo) SYNTAX IS WRONG **IN ALL DIGITAL OCEAN EXAMPLES**, SEE NEXT REFERENCE)
+#  - https://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the
 #  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
 #  - https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
 #  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
@@ -43,9 +47,9 @@ packages:
   - docker-ce-cli
 users:
   - name: piet
-#    ssh-authorized-keys:
+#    ssh_authorized_keys:
 #      - ssh-rsa ... Main computer
-    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo, docker
     shell: /bin/bash
 write_files:
