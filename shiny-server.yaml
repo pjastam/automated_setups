@@ -16,6 +16,7 @@
 #  - Optional: add SSH public key for user account
 #
 # Help from:
+#  - https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
 #  - https://github.com/andrewheiss/cloud-config-files
 #  - https://www.digitalocean.com/community/tutorials/how-to-set-up-shiny-server-on-ubuntu-20-04
 #  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
