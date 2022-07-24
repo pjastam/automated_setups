@@ -97,8 +97,9 @@ runcmd:
   # Set up a basic firewall, but allow SSH connections
   - ufw allow OpenSSH
   - ufw allow 'Nginx HTTP'
-    #Replace this by the following line if port 443 should also be opened
-    #- ufw allow 'Nginx Full'
+  # Replace this by the following line if port 443 should also be opened
+  #- ufw allow 'Nginx Full'
+  - ufw allow 4444/tcp
   - ufw --force enable
   # Get rid of message about how to run sudo
   - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
