@@ -12,11 +12,13 @@
 #  - If running on smaller droplet uncomment the section that enlarges swapfile
 #  - Optional: add SSH public key for user account
 #
-# Help from:
+# Help on cloud-init syntax from:
 #  - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 #  - https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
 #    (ERROR: THE ssh-authorized-keys (AND sudo) SYNTAX IS WRONG **IN ALL DIGITAL OCEAN EXAMPLES**, SEE NEXT REFERENCE)
 #  - https://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the
+#
+# Help on R and Docker installation syntax from:
 #  - http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/
 #  - https://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04
 #  - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
