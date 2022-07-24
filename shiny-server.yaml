@@ -49,8 +49,8 @@ packages:
 users:
   - name: piet
     # Add SSH key
-    #ssh-authorized-keys:
-    #- ssh-rsa ... Main computer
+    #ssh_authorized_keys:
+    #  - ssh-rsa ... Main computer
     sudo: ['ALL=(ALL) NOPASSWD:ALL']
     groups: sudo
     shell: /bin/bash
