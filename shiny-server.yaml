@@ -15,6 +15,13 @@
 #  - If running on smaller droplet uncomment the section that enlarges swapfile
 #  - Optional: add SSH public key for user account
 #
+# Some checks to do after the cloud-init script has finished:
+# - (SSH) Is SSH key added? sudo nano ~/.ssh/authorized_keys
+# - (SSH) Has port changed from 22 to 4444? sudo nano /etc/ssh/sshd_config
+# - (Nginx) Is the content of the server block written to the file that is included in the Nginx config file /etc/nginx/conf.d? sudo nano /etc/nginx/sites-enabled/default
+# - Are .deb files deleted? sudo ls -l /var/cache/apt/archives
+#   - If not, apply sudo apt-get clean (source: https://www.jverdeyen.be/ubuntu/digital-ocean-ubuntu-free-up-disk-space/)
+#
 # Help on cloud-init syntax from:
 #  - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 #  - https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup
