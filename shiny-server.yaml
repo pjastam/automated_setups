@@ -21,6 +21,7 @@
 # - (Nginx) Is the content of the server block written to the file that is included in the Nginx config file /etc/nginx/conf.d? sudo nano /etc/nginx/sites-enabled/default
 # - Are .deb files deleted? sudo ls -l /var/cache/apt/archives
 #   - If not, apply sudo apt-get clean (source: https://www.jverdeyen.be/ubuntu/digital-ocean-ubuntu-free-up-disk-space/)
+# - (sed) Check sed syntax at https://sed.js.org/index.html, this tool was used to solve the issue with port 4444 (see commit w/ hash fcb426dd536952ce929329a865d737660d12f112)
 #
 # Help on cloud-init syntax from:
 #  - https://cloudinit.readthedocs.io/en/latest/topics/examples.html
