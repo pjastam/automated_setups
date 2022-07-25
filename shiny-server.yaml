@@ -89,7 +89,7 @@ write_files:
       }
 runcmd:
   # Configure SSH and fail2ban
-  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - sed -i -e '/^[# ]*Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
   - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
   - service ssh restart
