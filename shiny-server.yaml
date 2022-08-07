@@ -114,6 +114,7 @@ runcmd:
   - sed -i -e '/^[# ]*Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
   - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
   - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
+  - sed -i -e '$aDebianBanner no' /etc/ssh/sshd_config
   - service ssh restart
   - service fail2ban restart
   # Set up a basic firewall, but allow SSH connections
