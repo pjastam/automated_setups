@@ -118,7 +118,7 @@ runcmd:
   - service ssh restart
   - service fail2ban restart
   # Prevent Nginx from showing its version number
-  - sed -i -e '/^[# ]*server_tokens/s/^.*$/server_tokens on;/' /etc/nginx/nginx.conf
+  - sed -i -e '/^[# ]*server_tokens/s/^.*$/server_tokens off;/' /etc/nginx/nginx.conf
   # Set up a basic firewall, but allow SSH connections
   - ufw allow OpenSSH
   - ufw allow 'Nginx HTTP'
