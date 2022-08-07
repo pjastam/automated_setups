@@ -81,13 +81,27 @@ write_files:
   # Forward ports for Shiny
   - path: /etc/nginx/sites-enabled/default
     content: |
+      # Mitigation Slow Read/Loris DDOS attack
+      limit_conn_zone $binary_remote_addr zone=addr:10m;
+      
+      # Everything else...
       server {
+        # Mitigation Slow Read/Loris DDOS attack
+        client_body_timeout 5s;
+        client_header_timeout 5s;
+      
+        # Everything else...
         listen 80 default_server;
         listen [::]:80 default_server;
         root /var/www/html;
         index index.html index.htm index.nginx-debian.html;
         server_name _;
+        
         location / {
+          # Mitigation Slow Read/Loris DDOS attack
+          limit_conn addr 250;
+          
+          # Everything else...
           proxy_pass http://127.0.0.1:3838;
           proxy_http_version 1.1;
           proxy_set_header Upgrade $http_upgrade;
