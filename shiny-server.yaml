@@ -117,6 +117,8 @@ runcmd:
   - sed -i -e '$aDebianBanner no' /etc/ssh/sshd_config
   - service ssh restart
   - service fail2ban restart
+  # Prevent Nginx from showing its version number
+  - sed -i -e '/^[# ]*server_tokens/s/^.*$/server_tokens on;/' /etc/nginx/nginx.conf
   # Set up a basic firewall, but allow SSH connections
   - ufw allow OpenSSH
   - ufw allow 'Nginx HTTP'
