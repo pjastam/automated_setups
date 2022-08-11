@@ -1,6 +1,6 @@
 # `cloud-init` files
 
-Collection of [cloud init](https://cloud-init.io/) files for adding user data to Digital Ocean droplets.
+Collection of [cloud-config scripts](https://www.digitalocean.com/community/tutorials/an-introduction-to-cloud-config-scripting) for [cloud init](https://cloud-init.io/) to execute by including them as user-data during the creation of [Digital Ocean](https://www.digitalocean.com/) droplets 
 
 ## Images
 
