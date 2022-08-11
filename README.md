@@ -1,6 +1,6 @@
 # `cloud-init` files
 
-Collection of [cloud-config scripts](https://www.digitalocean.com/community/tutorials/an-introduction-to-cloud-config-scripting) for [cloud init](https://cloud-init.io/) to execute by including them as user-data during the creation of [Digital Ocean](https://www.digitalocean.com/) droplets 
+Collection of [cloud-config scripts](https://www.digitalocean.com/community/tutorials/an-introduction-to-cloud-config-scripting) for [cloud init](https://cloud-init.io/) to execute by including them as [user-data](https://www.digitalocean.com/blog/automating-application-deployments-with-user-data) during the creation of [Digital Ocean](https://www.digitalocean.com/) droplets 
 
 ## Images
 
