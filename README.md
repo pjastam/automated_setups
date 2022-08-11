@@ -1,6 +1,6 @@
 # Cloud-config scripts
 
-Collection of [cloud-config scripts](https://www.digitalocean.com/community/tutorials/an-introduction-to-cloud-config-scripting) for [cloud-init](https://help.ubuntu.com/community/CloudInit) to execute by including them as [user-data](https://www.digitalocean.com/blog/automating-application-deployments-with-user-data) during the creation of [Digital Ocean](https://www.digitalocean.com/) droplets. [cloud init](https://cloud-init.io/) is the standard for customising cloud instances.
+Collection of [cloud-config scripts](https://www.digitalocean.com/community/tutorials/an-introduction-to-cloud-config-scripting) for the Ubuntu package [cloud-init](https://help.ubuntu.com/community/CloudInit) to execute by including them as [user-data](https://www.digitalocean.com/blog/automating-application-deployments-with-user-data) during the creation of [Digital Ocean](https://www.digitalocean.com/) droplets. [Cloud init](https://cloud-init.io/) is the standard for customising cloud instances.
 
 ## Images
 
