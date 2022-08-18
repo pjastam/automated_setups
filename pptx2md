@@ -1,0 +1,46 @@
+#cloud-config
+#
+# Use this file to create an Ubuntu server, install pptx2md and convert a Powerpoint pptx file into markdown
+# After the install, create a subdirectory called tmp, chdir tmp, upload the pptx file and excute the following cmd:
+# /usr/bin/python3.8 /usr/local/bin/pptx2md filename.pptx
+#
+# PREREQUISITES:
+# - python 3.8 or 3.9 (not 3.10, see issue https://github.com/scanny/python-pptx/issues/770)
+# - execute pptx2md as a root (see issue https://github.com/ssine/pptx2md/issues/25)
+#
+# REFERENCES:
+# - The tool to convert a Powerpoint pptx file into markdown: https://github.com/ssine/pptx2md
+# - To find the Python versions that are installed by default: whereis python
+# - How to Install and Switch Python Versions on Ubuntu 20.04: https://www.rosehosting.com/blog/how-to-install-and-switch-python-versions-on-ubuntu-20-04/
+
+package_upgrade: true
+packages:
+  - fail2ban
+  - curl
+  # Packages for Python
+  - python3-pip
+write_files:
+  - path: /etc/fail2ban/jail.local
+    content: |
+        [DEFAULT]
+        # Ban hosts for one hour:
+        bantime = 3600
+        #
+        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+        banaction = iptables-multiport
+        #
+        [sshd]
+        enabled = true
+        port    = 4444
+        logpath = %(sshd_log)s
+runcmd:
+  # Configure SSH and fail2ban
+  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - service ssh restart
+  - service fail2ban restart
+  # Set up a basic firewall, but allow SSH connections
+  - ufw allow OpenSSH
+  - ufw allow 4444/tcp
+  - ufw --force enable
+  # ### Python package pptx2md ###
+  - pip3 install pptx2md
