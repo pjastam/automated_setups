@@ -34,8 +34,8 @@ users:
     groups: sudo, docker
     shell: /bin/bash
     # Optional: Add SSH key or hashed password here
-    # ssh_authorized_keys:
-    #   - ssh-rsa AAAA... Main computer
+#    ssh_authorized_keys:
+#      - ssh-rsa AAAA... Main computer
 
 write_files:
   - path: /etc/fail2ban/jail.local
@@ -73,13 +73,13 @@ runcmd:
   - pip3 install beautifulsoup4 tinydb requests numpy pandas
 
   # Optional: Bigger swap space for R on smaller machines
-  - |
-    if [ ! -f /var/swap.1 ]; then
-      dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-      mkswap /var/swap.1
-      swapon /var/swap.1
-      echo '/var/swap.1 swap swap defaults 0 0' >> /etc/fstab
-    fi
+#  - |
+#    if [ ! -f /var/swap.1 ]; then
+#      dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+#      mkswap /var/swap.1
+#      swapon /var/swap.1
+#      echo '/var/swap.1 swap swap defaults 0 0' >> /etc/fstab
+#    fi
 
   # R packages
   - |
