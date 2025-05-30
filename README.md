@@ -13,7 +13,22 @@ Collection of [cloud-config scripts](https://www.digitalocean.com/community/tuto
 
 ### analysis.yaml
 
-Source: https://github.com/andrewheiss/cloud-config-files
+The script:
+- Adds CRAN and Docker APT sources
+- Installs packages for:
+- Python (pip, libraries)
+  - R (base, dev tools, packages)
+  - Docker
+  - Node.js
+  - Security (fail2ban, ufw)
+- Creates a user piet with sudo and Docker access
+- Configures SSH on port 4444
+- Sets up fail2ban and a firewall
+- Installs Python and R packages
+- Optionally adds swap space for R
+- Installs a large set of R packages
+
+Source: https://github.com/pjastam/automated_setups/blob/main/analysis.yaml
 
 Creates a new user named "piet" with password-less sudo capabilities
 SSH is available on port 4444
@@ -54,7 +69,7 @@ Detailed explanations of lines of code for Node.js setup:
 ### openvpn.yaml
 
 Source:
-- https://github.com/andrewheiss/cloud-config-files/ovpn.yaml
+- https://github.com/andrewheiss/cloud-config-files/blob/master/ovpn.yaml
 - https://github.com/Nyr/openvpn-install
 
 Creates a new user named "vpn" with password-less sudo capabilities
@@ -132,3 +147,4 @@ Help on Shiny server installation syntax from:
 - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3
 - https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981
 - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
+
