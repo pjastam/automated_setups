@@ -20,6 +20,10 @@ SSH is available on port 4444
 
 Log is saved as /var/log/cloud-init-output.log
 
+A simple marker file is created that can be used to verify that cloud-init completed successfully: touch /etc/cloud-init-finished
+
+Node.js setup is included for Node.js development or run JavaScript-based services (like APIs, web apps, or tools like JupyterLab extensions).
+
 Check these things manually first:
 - Make sure the R apt source matches the system
   (see https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html for names)
@@ -40,6 +44,12 @@ Help on R and Docker installation syntax from:
 - https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key
 - https://github.com/rocker-org/hadleyverse/blob/master/Dockerfile
 - https://stackoverflow.com/questions/24418815/how-do-i-install-docker-using-cloud-init
+
+Detailed explanations of lines of code for Node.js setup:
+- git: Essential for version control and cloning repositories.
+- nodejs and npm: Required for running and managing JavaScript packages.
+- npm install -g npm@latest: Ensures you’re using the latest npm version, which can fix bugs and improve compatibility.
+- express-generator: A helpful tool for quickly scaffolding Express.js applications.
 
 ### openvpn.yaml
 
