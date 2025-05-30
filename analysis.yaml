@@ -24,6 +24,9 @@ packages:
   - docker-ce-cli
   - ufw
   - htop
+  - git
+  - nodejs
+  - npm
 
 users:
   - name: piet
@@ -86,3 +89,10 @@ runcmd:
       'reshape2', 'rmarkdown', 'rvest', 'readr', 'readxl', 'testthat',
       'tidyr', 'shiny', 'stringr', 'xml2'
     ), repos='https://cran.rstudio.com/', dependencies=TRUE)"
+
+  # Node.js packages
+  - sudo npm install -g npm@latest
+  - sudo npm install -g express-generator
+
+  # Marker file to confirm cloud-init completion
+  - touch /etc/cloud-init-finished
