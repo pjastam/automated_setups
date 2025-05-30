@@ -1,70 +1,88 @@
 #cloud-config
 
+hostname: analysis-server
+timezone: Europe/Amsterdam
+
 apt_sources:
   - source: deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/
     keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
   - source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
     keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 
+package_update: true
 package_upgrade: true
+
 packages:
   - fail2ban
   - curl
-  # Packages for Python
   - python3-pip
-  # Packages for R
   - r-base-dev
   - libcurl4-gnutls-dev
   - libxml2-dev
   - libssl-dev
-  # Packages for Docker
   - docker-ce
   - docker-ce-cli
+  - ufw
+  - htop
+
 users:
   - name: piet
-#    ssh_authorized_keys:
-#      - ssh-rsa ... Main computer
     sudo: ALL=(ALL) NOPASSWD:ALL
     groups: sudo, docker
     shell: /bin/bash
+    # Optional: Add SSH key or hashed password here
+    # ssh_authorized_keys:
+    #   - ssh-rsa AAAA... Main computer
+
 write_files:
   - path: /etc/fail2ban/jail.local
     content: |
-        [DEFAULT]
-        # Ban hosts for one hour:
-        bantime = 3600
-        #
-        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
-        banaction = iptables-multiport
-        #
-        [sshd]
-        enabled = true
-        port    = 4444
-        logpath = %(sshd_log)s
+      [DEFAULT]
+      # Ban hosts for one hour:
+      bantime = 3600
+      # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+      banaction = iptables-multiport
+
+      [sshd]
+      enabled = true
+      port = 4444
+      logpath = %(sshd_log)s
+
 runcmd:
-  # Configure SSH and fail2ban
-  - sed -i -e '/^Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
-  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
-  - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
-  - service ssh restart
-  - service fail2ban restart
-  # Set up a basic firewall, but allow SSH connections
+  # SSH hardening
+  - sed -i 's/^#Port 22/Port 4444/' /etc/ssh/sshd_config
+  - sed -i 's/^PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
+  - echo 'AllowUsers piet' >> /etc/ssh/sshd_config
+  - systemctl restart ssh
+
+  # Fail2ban
+  - systemctl restart fail2ban
+
+  # Firewall (allows SSH connections)
   - ufw allow OpenSSH
   - ufw allow 4444/tcp
   - ufw --force enable
-  # Get rid of message about how to run sudo
+
+  # Remove sudo message
   - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
-  # ### Python stuff ###
-  - pip3 install beautifulsoup4 tinydb requests
-  - pip3 install numpy
-  - pip3 install pandas
-  # ### R stuff ###
-  # Bigger swap file for R on smaller machines
-  - /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-  - /sbin/mkswap /var/swap.1
-  - /sbin/swapon /var/swap.1
-  - sh -c 'echo "/var/swap.1 swap swap defaults 0 0 " >> /etc/fstab'
-  # Devtools
-  - R -e 'install.packages(c("devtools"), repos="https://cran.rstudio.com/")'
-  # Hadleyverse and close friends
-  - R -e 'install.packages(c("broom", "DiagrammeR", "devtools", "dplyr", "ggplot2", "ggthemes", "haven", "httr", "knitr", "lubridate", "packrat", "pryr", "purrr", "reshape2", "rmarkdown", "rvest", "readr", "readxl", "testthat", "tidyr", "shiny", "stringr", "xml2"), repos="https://cran.rstudio.com/", dependencies=TRUE)'
+
+  # Python packages
+  - pip3 install beautifulsoup4 tinydb requests numpy pandas
+
+  # Optional: Bigger swap space for R on smaller machines
+  - |
+    if [ ! -f /var/swap.1 ]; then
+      dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+      mkswap /var/swap.1
+      swapon /var/swap.1
+      echo '/var/swap.1 swap swap defaults 0 0' >> /etc/fstab
+    fi
+
+  # R packages
+  - |
+    Rscript -e "install.packages(c(
+      'broom', 'DiagrammeR', 'devtools', 'dplyr', 'ggplot2', 'ggthemes',
+      'haven', 'httr', 'knitr', 'lubridate', 'packrat', 'pryr', 'purrr',
+      'reshape2', 'rmarkdown', 'rvest', 'readr', 'readxl', 'testthat',
+      'tidyr', 'shiny', 'stringr', 'xml2'
+    ), repos='https://cran.rstudio.com/', dependencies=TRUE)"
