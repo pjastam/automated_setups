@@ -1,17 +1,4 @@
 #cloud-config
-#
-# Use this file to create an Ubuntu server, install pptx2md and convert a Powerpoint pptx file into markdown
-# After the install, create a subdirectory called tmp, chdir tmp, upload the pptx file and excute the following cmd:
-# /usr/bin/python3.8 /usr/local/bin/pptx2md filename.pptx
-#
-# PREREQUISITES:
-# - python 3.8 or 3.9 (not 3.10, see issue https://github.com/scanny/python-pptx/issues/770)
-# - execute pptx2md as a root (see issue https://github.com/ssine/pptx2md/issues/25)
-#
-# REFERENCES:
-# - The tool to convert a Powerpoint pptx file into markdown: https://github.com/ssine/pptx2md
-# - To find the Python versions that are installed by default: whereis python
-# - How to Install and Switch Python Versions on Ubuntu 20.04: https://www.rosehosting.com/blog/how-to-install-and-switch-python-versions-on-ubuntu-20-04/
 
 package_upgrade: true
 packages:
