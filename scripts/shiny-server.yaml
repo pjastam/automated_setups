@@ -1,0 +1,108 @@
+#cloud-config
+
+# Add apt mirror to get the latest version of R necessary for Shiny
+apt:
+  sources:
+    source1:
+      source: "deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/"
+      keyid: E298A3A825C0D65DFD57CBB651716619E084DAB9
+
+package_upgrade: true
+packages:
+  - fail2ban
+  - curl
+  # Packages for R
+  - r-base-dev
+  - libcurl4-gnutls-dev
+  - libxml2-dev
+  - libssl-dev
+  # Packages for Shiny server
+  - nginx
+  - gdebi-core
+users:
+  - name: piet
+    # Add SSH key
+    #ssh_authorized_keys:
+    #  - ssh-rsa ... Main computer
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: sudo
+    shell: /bin/bash
+write_files:
+  - path: /etc/fail2ban/jail.local
+    content: |
+        [DEFAULT]
+        # Ban hosts for one hour:
+        bantime = 3600
+        #
+        # Override /etc/fail2ban/jail.d/00-firewalld.conf:
+        banaction = iptables-multiport
+        #
+        [sshd]
+        enabled = true
+        port    = 4444
+        logpath = %(sshd_log)s
+  # Forward ports for Shiny
+  - path: /etc/nginx/sites-enabled/default
+    content: |
+      # Mitigation Slow Read/Loris DDOS attack
+      limit_conn_zone $binary_remote_addr zone=addr:10m;
+      
+      # Everything else...
+      server {
+        # Mitigation Slow Read/Loris DDOS attack
+        client_body_timeout 5s;
+        client_header_timeout 5s;
+      
+        # Everything else...
+        listen 80 default_server;
+        listen [::]:80 default_server;
+        root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        
+        location / {
+          # Mitigation Slow Read/Loris DDOS attack
+          limit_conn addr 250;
+          
+          # Everything else...
+          proxy_pass http://127.0.0.1:3838;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection "upgrade";
+          proxy_read_timeout 20d;
+        }
+      }
+runcmd:
+  # Configure SSH and fail2ban
+  - sed -i -e '/^[# ]*Port/s/^.*$/Port 4444/' /etc/ssh/sshd_config
+  - sed -i -e '/^PermitRootLogin/s/^.*$/PermitRootLogin no/' /etc/ssh/sshd_config
+  - sed -i -e '$aAllowUsers piet' /etc/ssh/sshd_config
+  - sed -i -e '$aDebianBanner no' /etc/ssh/sshd_config
+  - service ssh restart
+  - service fail2ban restart
+  # Prevent Nginx from showing its version number
+  - sed -i -e '/^[# ]*server_tokens/s/^.*$/server_tokens off;/' /etc/nginx/nginx.conf
+  - service nginx restart
+  # Set up a basic firewall, but allow SSH connections
+  - ufw allow OpenSSH
+  - ufw allow 'Nginx HTTP'
+  # Replace this by the following line if port 443 should also be opened
+  #- ufw allow 'Nginx Full'
+  - ufw allow 4444/tcp
+  - ufw --force enable
+  # Get rid of message about how to run sudo
+  - install -m 644 -o piet /dev/null /home/piet/.sudo_as_admin_successful
+  # ### R stuff ###
+  # Bigger swap file for R on smaller machines
+  - /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+  - /sbin/mkswap /var/swap.1
+  - /sbin/swapon /var/swap.1
+  - sh -c 'echo "/var/swap.1 swap swap defaults 0 0 " >> /etc/fstab'
+  # Install "shiny" package for R
+  - R -e 'install.packages(c("shiny", "rmarkdown"), repos="https://cran.rstudio.com/")'
+  # Download and install Shiny
+  - wget https://download3.rstudio.org/ubuntu-18.04/x86_64/shiny-server-1.5.18.987-amd64.deb
+  - gdebi -n shiny-server-1.5.18.987-amd64.deb
+  # Clean package files
+  - sudo apt-get clean
+  - service nginx restart
