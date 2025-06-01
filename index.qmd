@@ -1,8 +1,12 @@
-# Cloud-config scripts
+# Introduction to YAML Scripts
+
+This is a Quarto document that describes the YAML scripts that you can find in the subdirectory scripts of this repo. There is a chapter for each script, and the chapter contains a description of the script, its purpose, and how to use it.
+
+## Cloud-config scripts
 
 The scripts in this repository are written in YAML format and can be used as user data when launching cloud instances on various cloud providers, such as Hetzner or DigitalOcean. The contents of the user data field are passed to the instance as a file, which is then processed by the cloud-init service. This allows you to automate the setup of your instance, such as installing software, configuring services, and running scripts. [Cloud init](https://cloud-init.io/) is the standard for customising cloud instances.
 
-# Requirements
+## Requirements
 
 Check these things manually first:
 - Make sure the R apt source matches the system

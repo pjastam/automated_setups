@@ -1,0 +1,19 @@
+# openvpn.yml
+
+## The script
+
+-   Creates a new user named "vpn" with password-less sudo capabilities
+-   Makes SSH available on port 4444
+
+## Client configuration
+
+OpenVPN is configured automatically and the client certificate is available at `/home/vpn/client.ovpn` at your newly installed OpenVPN server. Then follow these steps:
+
+1.  Transfer this ovpn file to your client (Windows: `C:\Users<USERNAME>\OpenVPN\config`) using scp like so: `scp -P 4444 vpn@IPADDRESS:/home/vpn/client.ovpn client.ovpn`
+2.  Install the OpenVPN client.
+3.  Run the OpenVPN client (see the system tray in Windows).
+4.  Click yes if asked to add yourself to the "OpenVPN Administrators" group (administrator password required)
+
+## References
+
+-   <https://github.com/Nyr/openvpn-install>

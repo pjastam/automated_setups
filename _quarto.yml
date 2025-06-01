@@ -1,0 +1,19 @@
+project:
+  type: book
+
+book:
+  title: "Automated setups for devops and data science"
+  author: "Piet Stam"
+  date: "2025-06-01"
+  chapters:
+    - index.qmd
+    - analysis.qmd
+    - openvpn.qmd
+    - shiny-server.qmd
+    - pptx2md.qmd
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt

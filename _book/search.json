@@ -1,0 +1,162 @@
+[
+  {
+    "objectID": "pptx2md.html#prerequisites",
+    "href": "pptx2md.html#prerequisites",
+    "title": "5  pptx2md.yml",
+    "section": "5.1 Prerequisites",
+    "text": "5.1 Prerequisites\n\nUse python 3.8 or 3.9 (not 3.10, see issue https://github.com/scanny/python-pptx/issues/770)\nExecute pptx2md as a root (see issue https://github.com/ssine/pptx2md/issues/25)",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>pptx2md.yml</span>"
+    ]
+  },
+  {
+    "objectID": "pptx2md.html#the-script",
+    "href": "pptx2md.html#the-script",
+    "title": "5  pptx2md.yml",
+    "section": "5.2 The script",
+    "text": "5.2 The script\n\nCreates an Ubuntu server\nInstalls pptx2md\nConverts a Powerpoint pptx file into markdown",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>pptx2md.yml</span>"
+    ]
+  },
+  {
+    "objectID": "pptx2md.html#manual-steps",
+    "href": "pptx2md.html#manual-steps",
+    "title": "5  pptx2md.yml",
+    "section": "5.3 Manual steps",
+    "text": "5.3 Manual steps\n\nAfter the install, create a subdirectory called tmp\nchdir tmp\nUpload the pptx file\nExcute the following cmd: /usr/bin/python3.8 /usr/local/bin/pptx2md filename.pptx",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>pptx2md.yml</span>"
+    ]
+  },
+  {
+    "objectID": "pptx2md.html#references",
+    "href": "pptx2md.html#references",
+    "title": "5  pptx2md.yml",
+    "section": "5.4 References",
+    "text": "5.4 References\n\nThe tool to convert a Powerpoint pptx file into markdown: https://github.com/ssine/pptx2md\nHow to Install and Switch Python Versions on Ubuntu 20.04: https://www.rosehosting.com/blog/how-to-install-and-switch-python-versions-on-ubuntu-20-04/",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>pptx2md.yml</span>"
+    ]
+  },
+  {
+    "objectID": "analysis.html#the-script",
+    "href": "analysis.html#the-script",
+    "title": "2  analysis.yml",
+    "section": "2.1 The script",
+    "text": "2.1 The script\n\nAdds CRAN and Docker APT sources\nInstalls packages for:\n\nPython (pip, libraries)\n\nR (base, dev tools, packages)\nInstalls Docker and Docker Compose\nAdd security (fail2ban, ufw)\nCreates a user piet with sudo and Docker access\nConfigures SSH on port 4444\nSaves a log as /var/log/cloud-init-output.log\nSets up fail2ban and a firewall\nInstalls Python and R packages\nOptionally adds swap space for R\nInstalls a large set of R packages\nInstalls Node.js for JavaScript-based services\nInstalls npm for JavaScript package management\nInstalls Express.js generator\nCreates a simple marker file to verify cloud-init completion",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>analysis.yml</span>"
+    ]
+  },
+  {
+    "objectID": "analysis.html#references",
+    "href": "analysis.html#references",
+    "title": "2  analysis.yml",
+    "section": "2.2 References",
+    "text": "2.2 References\nHelp on cloud-init syntax from:\n\nhttps://cloudinit.readthedocs.io/en/latest/topics/examples.html\nhttps://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup\n\nERROR: THE ssh-authorized-keys (AND sudo) SYNTAX IS WRONG IN ALL DIGITAL OCEAN EXAMPLES, SEE NEXT REFERENCE\n\nhttps://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the\n\nHelp on R and Docker installation syntax from:\n\nhttp://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/\nhttps://www.digitalocean.com/community/tutorials/how-to-set-up-r-on-ubuntu-14-04\nhttps://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3\nhttps://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981\nhttps://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key\nhttps://github.com/rocker-org/hadleyverse/blob/master/Dockerfile\nhttps://stackoverflow.com/questions/24418815/how-do-i-install-docker-using-cloud-init\n\nDetailed explanations of lines of code for Node.js setup:\n\ngit: Essential for version control and cloning repositories.\nnodejs and npm: Required for running and managing JavaScript packages.\nnpm install -g npm@latest: Ensures you’re using the latest npm version, which can fix bugs and improve compatibility.\nexpress-generator: A helpful tool for quickly scaffolding Express.js applications.",
+    "crumbs": [
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>analysis.yml</span>"
+    ]
+  },
+  {
+    "objectID": "openvpn.html#the-script",
+    "href": "openvpn.html#the-script",
+    "title": "3  openvpn.yml",
+    "section": "3.1 The script",
+    "text": "3.1 The script\n\nCreates a new user named “vpn” with password-less sudo capabilities\nMakes SSH available on port 4444",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>openvpn.yml</span>"
+    ]
+  },
+  {
+    "objectID": "openvpn.html#client-configuration",
+    "href": "openvpn.html#client-configuration",
+    "title": "3  openvpn.yml",
+    "section": "3.2 Client configuration",
+    "text": "3.2 Client configuration\nOpenVPN is configured automatically and the client certificate is available at /home/vpn/client.ovpn at your newly installed OpenVPN server. Then follow these steps:\n\nTransfer this ovpn file to your client (Windows: C:\\Users&lt;USERNAME&gt;\\OpenVPN\\config) using scp like so: scp -P 4444 vpn@IPADDRESS:/home/vpn/client.ovpn client.ovpn\nInstall the OpenVPN client.\nRun the OpenVPN client (see the system tray in Windows).\nClick yes if asked to add yourself to the “OpenVPN Administrators” group (administrator password required)",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>openvpn.yml</span>"
+    ]
+  },
+  {
+    "objectID": "openvpn.html#references",
+    "href": "openvpn.html#references",
+    "title": "3  openvpn.yml",
+    "section": "3.3 References",
+    "text": "3.3 References\n\nhttps://github.com/Nyr/openvpn-install",
+    "crumbs": [
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>openvpn.yml</span>"
+    ]
+  },
+  {
+    "objectID": "shiny-server.html#checks",
+    "href": "shiny-server.html#checks",
+    "title": "4  shiny-server.yml",
+    "section": "4.2 Checks",
+    "text": "4.2 Checks\nSome checks to do after the cloud-init script has finished:\n\n(SSH) Is SSH key added? sudo nano ~/.ssh/authorized_keys\n(SSH) Has port changed from 22 to 4444? sudo nano /etc/ssh/sshd_config\n(Nginx) Is the content of the server block written to the file that is included in the Nginx config file /etc/nginx/conf.d? sudo nano /etc/nginx/sites-enabled/default\nAre .deb files deleted? sudo ls -l /var/cache/apt/archives\n\nIf not, apply sudo apt-get clean (source: https://www.jverdeyen.be/ubuntu/digital-ocean-ubuntu-free-up-disk-space/)\n\n(sed) Check sed syntax at https://sed.js.org/index.html, this tool was used to solve the issue with port 4444 (see commit w/ hash fcb426dd536952ce929329a865d737660d12f112)",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>shiny-server.yml</span>"
+    ]
+  },
+  {
+    "objectID": "shiny-server.html#references",
+    "href": "shiny-server.html#references",
+    "title": "4  shiny-server.yml",
+    "section": "4.3 References",
+    "text": "4.3 References\nHelp on cloud-init syntax from:\n\nhttps://cloudinit.readthedocs.io/en/latest/topics/examples.html\nhttps://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup\n\n(ERROR: THE ssh-authorized-keys (AND sudo) SYNTAX IS WRONG IN ALL DIGITAL OCEAN EXAMPLES, SEE NEXT REFERENCE)\n\nhttps://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the\nhttps://github.com/andrewheiss/cloud-config-files\n\nHelp on Shiny server installation syntax from:\n\nhttp://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/\nhttps://www.digitalocean.com/community/tutorials/how-to-set-up-shiny-server-on-ubuntu-20-04\nhttps://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3\nhttps://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981\nhttps://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>shiny-server.yml</span>"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Automated setups for devops and data science",
+    "section": "",
+    "text": "1 Introduction to YAML Scripts\nThis is a Quarto document that describes the YAML scripts that you can find in the subdirectory scripts of this repo. There is a chapter for each script, and the chapter contains a description of the script, its purpose, and how to use it.\nThe scripts in this repository are written in YAML format and can be used as user data when launching cloud instances on various cloud providers, such as Hetzner or DigitalOcean. The contents of the user data field are passed to the instance as a file, which is then processed by the cloud-init service. This allows you to automate the setup of your instance, such as installing software, configuring services, and running scripts. Cloud init is the standard for customising cloud instances.\nCheck these things manually first: - Make sure the R apt source matches the system (see https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html for names) - If running on smaller droplet uncomment the section that enlarges swapfile - Optional: add SSH public key for user account",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.qmd</span>"
+    ]
+  },
+  {
+    "objectID": "shiny-server.html#set-up-a-shiny-server-on-ubuntu-20.04",
+    "href": "shiny-server.html#set-up-a-shiny-server-on-ubuntu-20.04",
+    "title": "4  shiny-server.yml",
+    "section": "4.1 Set up a Shiny server on Ubuntu 20.04",
+    "text": "4.1 Set up a Shiny server on Ubuntu 20.04\n\nwithout SSL certificate\nsee https://cloud.r-project.org/bin/linux/ubuntu/ for the choice of the Ubuntu version\nalso check the shiny server version number at https://www.rstudio.com/products/shiny/download-server/ubuntu/",
+    "crumbs": [
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>shiny-server.yml</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#scripts",
+    "href": "index.html#scripts",
+    "title": "Automated setups for devops and data science",
+    "section": "3.1 Scripts",
+    "text": "3.1 Scripts\nYou can find the scripts in the scripts directory, or click here:\n\nanalysis.yaml: Installs R (with the hadleyverse and close friends) + Python 3 + numpy + pandas + Docker\nopenvpn.yaml: Installs and configures an OpenVPN server and generates a ready-to-use client certificate\nshiny-server.yaml: Installs R + Nginx + Shiny\npptx2md.yaml: Installs pptx2md",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.qmd</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#documentation",
+    "href": "index.html#documentation",
+    "title": "Automated setups for devops and data science",
+    "section": "3.2 Documentation",
+    "text": "3.2 Documentation\nYou can find the explanations of the scripts in the documentation that is created with the help of Quarto and GitHub Pages. See the link in the About section of this repository for the documentation site.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.qmd</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#sources",
+    "href": "index.html#sources",
+    "title": "Automated setups for devops and data science",
+    "section": "3.3 Sources",
+    "text": "3.3 Sources\nThe original code was adapted from various sources, including the scripts in this respository by Andrew Heiss and this tutorial by the Digital Ocean community. Also, I benefited from the results of penetration tests that have been performed for acquiring ISO and NEN certifications for my consulting firm Equalis.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.qmd</span>"
+    ]
+  }
+]

@@ -1,0 +1,24 @@
+# pptx2md.yml
+
+## Prerequisites
+
+-   Use python 3.8 or 3.9 (not 3.10, see issue <https://github.com/scanny/python-pptx/issues/770>)
+-   Execute pptx2md as a root (see issue <https://github.com/ssine/pptx2md/issues/25>)
+
+## The script
+
+-   Creates an Ubuntu server
+-   Installs pptx2md
+-   Converts a Powerpoint pptx file into markdown
+
+## Manual steps
+
+-   After the install, create a subdirectory called tmp
+-   chdir tmp
+-   Upload the pptx file
+-   Excute the following cmd: `/usr/bin/python3.8 /usr/local/bin/pptx2md filename.pptx`
+
+## References
+
+-   The tool to convert a Powerpoint pptx file into markdown: <https://github.com/ssine/pptx2md>
+-   How to Install and Switch Python Versions on Ubuntu 20.04: <https://www.rosehosting.com/blog/how-to-install-and-switch-python-versions-on-ubuntu-20-04/>

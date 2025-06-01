@@ -1,0 +1,44 @@
+# shiny-server.yml
+
+## Set up a Shiny server on Ubuntu 20.04
+
+-   without SSL certificate
+-   see <https://cloud.r-project.org/bin/linux/ubuntu/> for the choice of the Ubuntu version
+-   also check the shiny server version number at <https://www.rstudio.com/products/shiny/download-server/ubuntu/>
+
+## Checks
+
+Some checks to do after the cloud-init script has finished:
+
+-   (SSH) Is SSH key added? `sudo nano ~/.ssh/authorized_keys`
+-   (SSH) Has port changed from 22 to 4444? `sudo nano /etc/ssh/sshd_config`
+-   (Nginx) Is the content of the server block written to the file that is included in the Nginx config file `/etc/nginx/conf.d`? `sudo nano /etc/nginx/sites-enabled/default`
+-   Are .deb files deleted? `sudo ls -l /var/cache/apt/archives`
+    -   If not, apply sudo apt-get clean (source: <https://www.jverdeyen.be/ubuntu/digital-ocean-ubuntu-free-up-disk-space/>)
+-   (sed) Check sed syntax at <https://sed.js.org/index.html>, this tool was used to solve the issue with port 4444 (see commit w/ hash `fcb426dd536952ce929329a865d737660d12f112`)
+
+## References
+
+Help on cloud-init syntax from:
+
+-   <https://cloudinit.readthedocs.io/en/latest/topics/examples.html>
+
+-   <https://www.digitalocean.com/community/tutorials/how-to-use-cloud-config-for-your-initial-server-setup>
+
+    -   (ERROR: THE `ssh-authorized-keys` (AND sudo) SYNTAX IS WRONG **IN ALL DIGITAL OCEAN EXAMPLES**, SEE NEXT REFERENCE)
+
+-   <https://superuser.com/questions/1725127/invalid-config-for-cloud-init-but-apparently-still-works-how-do-i-remove-the>
+
+-   <https://github.com/andrewheiss/cloud-config-files>
+
+Help on Shiny server installation syntax from:
+
+-   <http://deanattali.com/2015/05/09/setup-rstudio-shiny-server-digital-ocean/>
+
+-   <https://www.digitalocean.com/community/tutorials/how-to-set-up-shiny-server-on-ubuntu-20-04>
+
+-   <https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3>
+
+-   <https://gist.github.com/mdlincoln/1f40f4e88ce32c55b5f3#gistcomment-3009981>
+
+-   <https://cran.rstudio.com/bin/linux/ubuntu/fullREADME.html#using-apt-key>
